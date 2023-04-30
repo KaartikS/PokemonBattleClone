@@ -9,7 +9,13 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed;
     private Vector2 input;
     private bool isMoving;
+    private Animator animator;
 
+    private void Awake()
+    {
+        // get a reference to the animator when this script is loaded
+        animator = GetComponent<Animator>();
+    }
     private void Update()
     {
         // if not moving, check inputs
@@ -25,6 +31,9 @@ public class PlayerController : MonoBehaviour
             // if the input is not zero
             if(input != Vector2.zero)
             {
+                animator.SetFloat("moveX", input.x);
+                animator.SetFloat("moveY", input.y);
+
                 isMoving = true;
                 // new target position is the transform's position plus the inputs in each directionm
                 var targetPos = transform.position;
@@ -35,6 +44,8 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(Move(targetPos));
             }
         }
+
+        animator.SetBool("isMoving", isMoving);
     }
 
     IEnumerator Move(Vector3 targetPos)
