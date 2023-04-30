@@ -8,8 +8,9 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed;
     private Vector2 input;
-    private bool isMoving;
+    public bool isMoving;
     private Animator animator;
+    public LayerMask solidObjectsLayer;
 
     private void Awake()
     {
@@ -40,14 +41,18 @@ public class PlayerController : MonoBehaviour
                 targetPos.x += input.x;
                 targetPos.y += input.y;
 
-                // call coroutine
-                StartCoroutine(Move(targetPos));
+                // call coroutine if isWalkable is true
+                if (IsWalkable(targetPos))
+                {
+                    StartCoroutine(Move(targetPos));
+                }
             }
         }
 
         animator.SetBool("isMoving", isMoving);
     }
 
+    // Coroutine to make the player move towards the target slowly over each update cycle
     IEnumerator Move(Vector3 targetPos)
     {
         while((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)
@@ -60,6 +65,17 @@ public class PlayerController : MonoBehaviour
         // the player is also not moving at this point
         transform.position = targetPos;
         isMoving = false;
+    }
+
+    // Returns a bool to see if the target position is not overlapping with the solidObjectsLayer. 
+    private bool IsWalkable (Vector3 targetPos)
+    {
+        if(Physics2D.OverlapCircle(targetPos, 0.1f, solidObjectsLayer) != null)
+        {
+            isMoving = false;
+            return false;
+        }
+        return true;
     }
 }
 
