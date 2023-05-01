@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public bool isMoving;
     private Animator animator;
     public LayerMask solidObjectsLayer;
+    public LayerMask longGrassLayer;
 
     private void Awake()
     {
@@ -65,6 +67,20 @@ public class PlayerController : MonoBehaviour
         // the player is also not moving at this point
         transform.position = targetPos;
         isMoving = false;
+
+
+        CheckForEncounters();
+    }
+
+    private void CheckForEncounters()
+    {
+        if (Physics2D.OverlapCircle(transform.position, 0.2f, longGrassLayer) != null)
+        {
+            if(UnityEngine.Random.Range(1, 101) <= 10)
+            {
+                Debug.Log("You encoutered an enemy!!");
+            }
+        }
     }
 
     // Returns a bool to see if the target position is not overlapping with the solidObjectsLayer. 
