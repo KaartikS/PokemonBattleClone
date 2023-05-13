@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb26acf272d366439a10f70f7af9e7e, type: 3}
   m_Name: Growl
   m_EditorClassIdentifier: 
-  name: 
+  name: Growl
   description: 'Growl lowers the target''s Attack by one stage.
 
-    
 
-    Stats
-    can be lowered to a minimum of -6 stages each'
+
+    Stats can
+    be lowered to a minimum of -6 stages each'
   type: 1
   power: 0
   accuracy: 100

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb26acf272d366439a10f70f7af9e7e, type: 3}
   m_Name: Vine Whip
   m_EditorClassIdentifier: 
-  name: 
+  name: Vine Whip
   description: 'Vine Whip deals damage with no additional effect.
 
-    
+
 
 '
   type: 5

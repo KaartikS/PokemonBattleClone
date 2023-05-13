@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb26acf272d366439a10f70f7af9e7e, type: 3}
   m_Name: Scratch
   m_EditorClassIdentifier: 
-  name: 
+  name: Scratch
   description: "Scratch is one of the most common and basic moves a Pok\xE9mon learns.
     It deals damage with no additional effects.\r\n\r\n"
   type: 1
