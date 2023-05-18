@@ -14,12 +14,14 @@ public class PlayerController : MonoBehaviour
     public LayerMask solidObjectsLayer;
     public LayerMask longGrassLayer;
 
+    public event Action OnEncountered;
+
     private void Awake()
     {
         // get a reference to the animator when this script is loaded
         animator = GetComponent<Animator>();
     }
-    private void Update()
+    public void HandleUpdate()
     {
         // if not moving, check inputs
         if (!isMoving)
@@ -78,7 +80,8 @@ public class PlayerController : MonoBehaviour
         {
             if(UnityEngine.Random.Range(1, 101) <= 10)
             {
-                Debug.Log("You encoutered an enemy!!");
+                animator.SetBool("isMoving", false);
+                OnEncountered();
             }
         }
     }

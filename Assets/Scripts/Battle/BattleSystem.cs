@@ -12,15 +12,18 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] BattleUnit enemyUnit;
     [SerializeField] BattleHud enemyHud;
     [SerializeField] BattleDialogBox dialogBox;
+
+    public event Action<bool> OnBattleFinish;
+
     BattleState state;
     int currentAction;
     int currentMove;
 
-    private void Start()
+    public void StartBattle()
     {
         StartCoroutine(SetupBattle());
     }
-    private void Update()
+    public void HandleUpdate()
     {
         if (state == BattleState.PlayerAction)
         {
@@ -82,6 +85,7 @@ public class BattleSystem : MonoBehaviour
     {
         state = BattleState.Busy;
         var move = playerUnit.Pokemon.Moves[currentMove];
+        move.PP--;
 
         yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} used {move.Base.name}");
         playerUnit.PlayAttackAnimation();
@@ -97,6 +101,10 @@ public class BattleSystem : MonoBehaviour
         {
             yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} Fainted");
             enemyUnit.PlayerFaintAnimation();
+
+            yield return new WaitForSeconds(2f);
+            OnBattleFinish(true);
+
         }
         else
         {
@@ -108,6 +116,8 @@ public class BattleSystem : MonoBehaviour
     {
         state = BattleState.EnemyMove;
         var move = enemyUnit.Pokemon.GetRandomMove();
+        move.PP--;
+
 
         yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} used {move.Base.name}");
         enemyUnit.PlayAttackAnimation();
@@ -123,6 +133,9 @@ public class BattleSystem : MonoBehaviour
         {
             yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} Fainted");
             playerUnit.PlayerFaintAnimation();
+
+            yield return new WaitForSeconds(2f);
+            OnBattleFinish(false);
         }
         else
         {
